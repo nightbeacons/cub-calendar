@@ -3,6 +3,11 @@
    error_reporting(E_ALL);
    ini_set('display_startup_errors', TRUE);
    ini_set('display_errors',1);
+// Check for the admin cookie
+$is_admin = 0;
+   if (isset($_COOKIE['Calendar'])){
+   $is_admin = (($_COOKIE['Calendar'] == "Admin") ? 1 : 0);
+   }
 $is_admin = 1;
 $text_file = "bottom_text.php";
 date_default_timezone_set('America/Los_Angeles');
@@ -173,7 +178,7 @@ echo "<tr>";
    $daynum_class = ($is_today ? "daynumber_today" : "daynumber");
    $daynum_style = (($daynum==6) ?  " style=\"background-color: #ccffcc;\" " : "");
    $this_jdate=cal_to_jd(CAL_GREGORIAN, $current_month_number, $daynum, $current_year);
-   $edit_link = (($is_admin) ? "<div class=\"caladmin\"><p class=\"caladminlink\" onclick=\"window.open('admin.php?n=$this_jdate','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500%,height=600%,screenX=50%,screenY=50%')\">Edit</p></div>" : "");
+   $edit_link = (($is_admin) ? "<div class=\"caladmin\"><p class=\"caladminlink\" onclick=\"window.open('admin/update.php?n=$this_jdate','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500%,height=600%,screenX=50%,screenY=50%')\">Edit</p></div>" : "");
    echo "<td class=\"$td_class\" $daynum_style>$edit_link<span class=\"$daynum_class\">$daycounter</span><br>$events</td>";
 
       if ((++$daynum > 7) AND ($daycounter != $days_in_month)) {

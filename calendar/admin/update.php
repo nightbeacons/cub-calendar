@@ -4,14 +4,27 @@
    ini_set('display_startup_errors', TRUE);
    ini_set('display_errors',1);
 date_default_timezone_set('America/Los_Angeles');
+
+// Check for the admin cookie
+$is_admin = 0;
+   if (isset($_COOKIE['Calendar'])){
+   $is_admin = (($_COOKIE['Calendar'] == "Admin") ? 1 : 0);
+   }
 include "/var/www/northshore/htdocs/calendar/db.php";
 $db=mysql_connect("localhost",$SQLuser, $SQLpass);
 mysql_select_db("cubberley",$db);
 
-   if (isset($_POST['jdate'])){
-   processForm($db);
+   // Check if the user is an admin. If not, redirect out 
+   if ($is_admin){
+
+      if (isset($_POST['jdate'])){
+      processForm($db);
+      } else {
+      showForm($db);
+      }
+
    } else {
-   showForm($db);
+   header("Location: http://www.cubberleyballroom.com/");
    }
 
 /**
