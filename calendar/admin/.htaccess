@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "IRC+ICS Test Area"
+AuthUserFile /var/www/northshore/htdocs/calendar/admin/acl.jpg
+Require valid-user
