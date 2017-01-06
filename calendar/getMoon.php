@@ -1,6 +1,9 @@
 #!/usr/bin/php
 <?php
-
+/**
+ * Fetch large Moon image and resize
+ * To be run daily via cron
+ */
 $moon_url  = "http://api.usno.navy.mil/imagery/moon.png";
 $image_dir = "/var/www/northshore/htdocs/calendar/";
 $size      = "75x75";
