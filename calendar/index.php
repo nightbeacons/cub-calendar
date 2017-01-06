@@ -116,6 +116,12 @@ a.calnavlink:hover{
   font-weight: 800;
 }
 
+p.eventLine{
+  color: black;
+  font-size: 10pt;
+  font-family: Arial, Helvetica;
+}
+
 div.calsub{
   font-weight: 400;
   font-size: 10pt;
@@ -179,7 +185,8 @@ echo "<tr>";
    $daynum_style = (($daynum==6) ?  " style=\"background-color: #ccffcc;\" " : "");
    $this_jdate=cal_to_jd(CAL_GREGORIAN, $current_month_number, $daynum, $current_year);
    $edit_link = (($is_admin) ? "<div class=\"caladmin\"><p class=\"caladminlink\" onclick=\"window.open('admin/update.php?n=$this_jdate','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500%,height=600%,screenX=50%,screenY=50%')\">Edit</p></div>" : "");
-   echo "<td class=\"$td_class\" $daynum_style>$edit_link<span class=\"$daynum_class\">$daycounter</span><br>$events</td>";
+   // Display the calendar date cell
+   echo "<td class=\"$td_class\" $daynum_style>$edit_link<span class=\"$daynum_class\">$daycounter</span><p class=\"eventLine\">$events</p></td>";
 
       if ((++$daynum > 7) AND ($daycounter != $days_in_month)) {
       $daynum=1;
