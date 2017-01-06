@@ -225,12 +225,19 @@ $r = mysql_query($query, $db);
    while($myrow=mysql_fetch_assoc($r)){
    $dance1 = $myrow['dance1'];
    $dance2 = $myrow['dance2'];
-   $html   = $myrow['html'];
+   $html   = trim($myrow['html']);
    $position = $myrow['position']; 
    }
 
-$events = $dance1 . "<br>"  . $dance2;
+   if($position == '') $position="B";
+$events = $dance1;
 
+   if(strlen($dance2) > 0)  $events .= " / $dance2";
+
+   if(strlen($html) > 0) {
+      if ($position == "T") $events = $html . "<br>" . $events;
+      if ($position == "B") $events .= "<br>" . $html;
+   }
 
 return($events);
 }
