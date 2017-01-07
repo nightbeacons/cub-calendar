@@ -3,6 +3,7 @@
    error_reporting(E_ALL);
    ini_set('display_startup_errors', TRUE);
    ini_set('display_errors',1);
+// Moon image originally grabbed from http://api.usno.navy.mil/imagery/moon.png
 // Check for the admin cookie
 $is_admin = 0;
    if (isset($_COOKIE['Calendar'])){
@@ -10,6 +11,7 @@ $is_admin = 0;
    }
 $is_admin = 1;
 $text_file = "bottom_text.php";
+$moon_image = "/image/moon_75x75.png?d=" . date("d");
 date_default_timezone_set('America/Los_Angeles');
 include "/var/www/northshore/htdocs/calendar/db.php";
 $db=mysql_connect("localhost",$SQLuser, $SQLpass);
@@ -149,7 +151,7 @@ p.caladminlink{
 
 <a name="calendar"></a>
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
-<tr><td width="33%">&nbsp;</td><td><h1 class="title"><?php echo "$curr_month Dance Calendar";?></h1></td><td width="33%"><img src="http://api.usno.navy.mil/imagery/moon.png" style="position:relative:left:50%;width:75px;height:75px;"></td></tr>
+<tr><td width="33%">&nbsp;</td><td><h1 class="title"><?php echo "$curr_month Dance Calendar";?></h1></td><td width="33%"><img src="<?php echo $moon_image; ?>" style="position:relative:left:50%;width:75px;height:75px;"></td></tr>
 
 </table>
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
