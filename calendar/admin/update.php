@@ -55,6 +55,7 @@ $r = mysql_query($query, $db);
    $html   = trim(base64_decode($myrow['html']));
    $position = $myrow['position'];
    }
+   if ($position=="") $position="B";
 if (strlen(mysql_error($db)) > 0) echo "<br>MySQL error: " . mysql_error($db);
 ?>
 <!DOCTYPE html>
@@ -99,6 +100,7 @@ var form = document.getElementById("danceform");
                            <input type="radio" name="position" value="B" <?php if ($position=="B") echo " checked ";?>> Bottom
 </td></tr> 
 <tr><td colspan="2" style="text-align:center;"><input type="button" name="button" id="updatebutton" value="Update Calendar"></td></tr>
+<tr><td colspan="2" style="text-align:center;"><input type="button" name="cancel"  value="Cancel" onclick="self.close();"></td></tr>
 
 </table><input type="hidden" name="jdate" value="<?php echo $jdate; ?>">
 
