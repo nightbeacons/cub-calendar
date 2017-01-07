@@ -52,13 +52,13 @@ $r = mysql_query($query, $db);
    while($myrow=mysql_fetch_assoc($r)){
    $dance1 = $myrow['dance1'];
    $dance2 = $myrow['dance2'];
-   $html   = $myrow['html'];
+   $html   = trim(base64_decode($myrow['html']));
    $position = $myrow['position'];
    }
-
+if (strlen(mysql_error($db)) > 0) echo "<br>MySQL error: " . mysql_error($db);
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -71,20 +71,26 @@ h2.title {
 </style>
 
 <script type="text/javascript">
-  function closeSelf (f) {
-     f.submit();
-     window.close();
-  }
+window.onload=function(){
+var form = document.getElementById("danceform");
+   document.getElementById("updatebutton").addEventListener("click", function () {
+   form.submit();
+   });
+   }
 </script>
 
 </head>
-<body onunload="window.opener.reload();">
+<?php
+//<body onunload="window.opener.reload();">
+?>
+<body> 
+
 
 <?php
 //echo "<h2 class=\"title\">Editing Dance Calendar Information for<br>$dayname - $curr_month $day, $current_year</h2>";
 ?>  
 
-<form method="POST" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>" onsubmit="return closeSelf(this);">
+<form method="POST" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>" id="danceform" >
 <table width="85%" border="0" cellpadding="9">
 <tr><td>Dance&nbsp;#1:</td><td><?php selectMenu('dance1', $dance1);?></td></tr>
 <tr><td>Dance&nbsp;#2:</td><td><?php selectMenu('dance2', $dance2);?></td></tr>
@@ -92,7 +98,8 @@ h2.title {
 <tr><td>Placement:</td><td><input type="radio" name="position" value="T" <?php if ($position=="T") echo " checked ";?>> Top
                            <input type="radio" name="position" value="B" <?php if ($position=="B") echo " checked ";?>> Bottom
 </td></tr> 
-<tr><td colspan="2" style="text-align:center;"><input type="submit" name="submit" value="Update Calendar"></td></tr>
+<tr><td colspan="2" style="text-align:center;"><input type="button" name="button" id="updatebutton" value="Update Calendar"></td></tr>
+
 </table><input type="hidden" name="jdate" value="<?php echo $jdate; ?>">
 
 </body>
@@ -159,6 +166,15 @@ $query = "INSERT INTO calendar (date, dance1, dance2, html, position) VALUES(\"$
 ON DUPLICATE KEY UPDATE dance1=\"$dance1\", dance2=\"$dance2\", html=\"$html\", position=\"$position\"";
 
 $result = mysql_query($query, $db); 
+?>
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body onload="window.opener.location.reload(true);self.close();" >
+</body>
+</html>
+<?php
 
 }
 

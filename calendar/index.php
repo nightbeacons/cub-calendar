@@ -10,9 +10,9 @@ $is_admin = 0;
    $is_admin = (($_COOKIE['Calendar'] == "Admin") ? 1 : 0);
    }
 $is_admin = 1;
+date_default_timezone_set('America/Los_Angeles');
 $text_file = "bottom_text.php";
 $moon_image = "/image/moon_75x75.png?d=" . date("d");
-date_default_timezone_set('America/Los_Angeles');
 include "/var/www/northshore/htdocs/calendar/db.php";
 $db=mysql_connect("localhost",$SQLuser, $SQLpass);
 mysql_select_db("cubberley",$db);
@@ -122,6 +122,7 @@ p.eventLine{
   color: black;
   font-size: 10pt;
   font-family: Arial, Helvetica;
+  margin-top: 4px;
 }
 
 div.calsub{
@@ -185,7 +186,7 @@ echo "<tr>";
    $td_class = ($is_today ? "calbox_today" : "calbox");
    $daynum_class = ($is_today ? "daynumber_today" : "daynumber");
    $daynum_style = (($daynum==6) ?  " style=\"background-color: #ccffcc;\" " : "");
-   $this_jdate=cal_to_jd(CAL_GREGORIAN, $current_month_number, $daynum, $current_year);
+   $this_jdate=cal_to_jd(CAL_GREGORIAN, $current_month_number, $daycounter, $current_year);
    $edit_link = (($is_admin) ? "<div class=\"caladmin\"><p class=\"caladminlink\" onclick=\"window.open('admin/update.php?n=$this_jdate','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500%,height=600%,screenX=50%,screenY=50%')\">Edit</p></div>" : "");
    // Display the calendar date cell
    echo "<td class=\"$td_class\" $daynum_style>$edit_link<span class=\"$daynum_class\">$daycounter</span><p class=\"eventLine\">$events</p></td>";
@@ -227,7 +228,7 @@ $r = mysql_query($query, $db);
    while($myrow=mysql_fetch_assoc($r)){
    $dance1 = $myrow['dance1'];
    $dance2 = $myrow['dance2'];
-   $html   = trim($myrow['html']);
+   $html   = trim(base64_decode($myrow['html']));
    $position = $myrow['position']; 
    }
 
