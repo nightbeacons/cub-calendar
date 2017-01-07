@@ -69,13 +69,22 @@ h2.title {
   text-align: center;
 }
 </style>
+
+<script type="text/javascript">
+  function closeSelf (f) {
+     f.submit();
+     window.close();
+  }
+</script>
+
 </head>
-<body >
+<body onunload="window.opener.reload();">
+
 <?php
 //echo "<h2 class=\"title\">Editing Dance Calendar Information for<br>$dayname - $curr_month $day, $current_year</h2>";
 ?>  
 
-<form method="POST" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>">
+<form method="POST" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>" onsubmit="return closeSelf(this);">
 <table width="85%" border="0" cellpadding="9">
 <tr><td>Dance&nbsp;#1:</td><td><?php selectMenu('dance1', $dance1);?></td></tr>
 <tr><td>Dance&nbsp;#2:</td><td><?php selectMenu('dance2', $dance2);?></td></tr>
@@ -99,27 +108,27 @@ h2.title {
 function selectMenu($whichDance, $defaultValue){
 $selectMenu = "<select name=\"$whichDance\">
    <option value=\"\"> - none - </option>\n";
-$dances = array("Salsa", 
-                "Samba", 
-                "Foxtrot", 
-                "Quickstep", 
-                "Waltz",
-                "Viennese Waltz",
-                "Lindy Hop",
-                "Salsa Rueda", 
-                "Paso Doble", 
-                "East Coast Swing",
-                "West Coast Swing",
-                "Country Two Step",
-                "Nightclub Two Step",
-                "Cha Cha",
-                "Rumba",
-                "Bolero",
-                "Tango",
-                "Argentine Tango",
-                "Merengue",
+$dances = array("Argentine Tango",
                 "Bachata",
-);
+                "Bolero",
+                "Cha Cha",
+                "Country Two Step",
+                "East Coast Swing",
+                "Foxtrot",
+                "Lindy Hop",
+                "Merengue",
+                "Nightclub Two Step",
+                "Paso Doble",
+                "Quickstep",
+                "Rumba",
+                "Salsa",
+                "Salsa Rueda",
+                "Samba",
+                "Tango",
+                "Viennese Waltz",
+                "Waltz",
+                "West Coast Swing",
+               );
 sort($dances);
   foreach($dances as $dance){
   $is_selected = (($dance == $defaultValue) ? " SELECTED " : "");
@@ -139,18 +148,17 @@ function processForm($db){
 
 $dance1   = $_POST['dance1'];
 $dance2   = $_POST['dance2'];
-$html     = $_POST['html'];
+$html     = base64_encode(trim($_POST['html']));
 $position = $_POST['position'];
 $jdate    = $_POST['jdate'];
 
 $dateAry = cal_from_jd($jdate, CAL_GREGORIAN);
+$date = $dateAry['year'] . "-" . sprintf('%02d', $dateAry['month']) . "-" . sprintf('%02d', $dateAry['day']);
 
-$mm = print_r($_POST, TRUE);
-$mm .= print_r($dateAry, TRUE);
-echo "<pre>$mm</pre>";
+$query = "INSERT INTO calendar (date, dance1, dance2, html, position) VALUES(\"$date\", \"$dance1\", \"$dance2\", \"$html\", \"$position\")
+ON DUPLICATE KEY UPDATE dance1=\"$dance1\", dance2=\"$dance2\", html=\"$html\", position=\"$position\"";
 
-echo "HI";
-// body onload self.close()
+$result = mysql_query($query, $db); 
+
 }
-
 
