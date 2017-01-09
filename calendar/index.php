@@ -9,11 +9,11 @@ $is_admin = 0;
    if (isset($_COOKIE['Calendar'])){
    $is_admin = (($_COOKIE['Calendar'] == "Admin") ? 1 : 0);
    }
-$is_admin = 1;
+// $is_admin = 1;
 date_default_timezone_set('America/Los_Angeles');
 $text_file = "bottom_text.php";
 $moon_image = "/image/moon_75x75.png?d=" . date("d");
-include "/var/www/northshore/htdocs/calendar/db.php";
+include "/var/www/vhosts/paloaltoballroom.com/httpdocs/calendar/db.php";
 $db=mysql_connect("localhost",$SQLuser, $SQLpass);
 mysql_select_db("cubberley",$db);
 
@@ -103,6 +103,15 @@ a.calnavlink:hover{
   text-decoration: underline;
 }
 
+a.textlink{
+  color: #87cefa;
+  text-decoration: none;
+  font-family: Arial, Helvetica;
+}
+
+a.textlink:hover{
+  text-decoration: underline;
+}
 
 .daynumber{
   color: black;
@@ -148,7 +157,7 @@ p.caladminlink{
 </style>
 </head>
 <body style="background-color:black;">
-<IMG SRC="/image/dance.gif"  ALIGN=BOTTOM><IMG SRC="/image/calbanner.gif">
+<div style="text-align:center;dislay:inline;"><IMG align="center" SRC="/image/dance.gif"  VALIGN=BOTTOM><IMG align="center" SRC="/image/calbanner.gif"></div>
 
 <a name="calendar"></a>
 <table border="0" width="100%" cellpadding="0" cellspacing="0">

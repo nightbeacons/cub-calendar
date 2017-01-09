@@ -10,7 +10,7 @@ $is_admin = 0;
    if (isset($_COOKIE['Calendar'])){
    $is_admin = (($_COOKIE['Calendar'] == "Admin") ? 1 : 0);
    }
-include "/var/www/northshore/htdocs/calendar/db.php";
+include "/var/www/vhosts/paloaltoballroom.com/httpdocs/calendar/db.php";
 $db=mysql_connect("localhost",$SQLuser, $SQLpass);
 mysql_select_db("cubberley",$db);
 
@@ -69,6 +69,9 @@ h2.title {
   font-family: Arial, Helvetica;
   text-align: center;
 }
+td {
+  font-family: Arial, Helvetica;
+}
 </style>
 
 <script type="text/javascript">
@@ -88,15 +91,15 @@ var form = document.getElementById("danceform");
 
 
 <?php
-//echo "<h2 class=\"title\">Editing Dance Calendar Information for<br>$dayname - $curr_month $day, $current_year</h2>";
+echo "<h2 class=\"title\">Editing Dance Calendar Information for<br>$dayname - $curr_month $day, $current_year</h2>";
 ?>  
 
 <form method="POST" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>" id="danceform" >
-<table width="85%" border="0" cellpadding="9">
+<table width="85%" border="0" cellspacing="0" cellpadding="9">
 <tr><td>Dance&nbsp;#1:</td><td><?php selectMenu('dance1', $dance1);?></td></tr>
 <tr><td>Dance&nbsp;#2:</td><td><?php selectMenu('dance2', $dance2);?></td></tr>
-<tr><td valign="top">Optional Markup:</td><td><textarea name="html" cols="40" rows="9"><?php echo trim($html);?></textarea></td></tr>
-<tr><td>Placement:</td><td><input type="radio" name="position" value="T" <?php if ($position=="T") echo " checked ";?>> Top
+<tr><td valign="top" style="background-color:#f5f5dc;">Optional Markup:<br><br><span style="font-size:13px;"><i>(HTML or plain text)</i></span></td><td style="background-color:#f5f5dc;"><textarea name="html" cols="40" rows="9"><?php echo trim($html);?></textarea></td></tr>
+<tr><td style="background-color:#f5f5dc;">Placement:</td><td style="background-color:#f5f5dc;"><input type="radio" name="position" value="T" <?php if ($position=="T") echo " checked ";?>> Top
                            <input type="radio" name="position" value="B" <?php if ($position=="B") echo " checked ";?>> Bottom
 </td></tr> 
 <tr><td colspan="2" style="text-align:center;"><input type="button" name="button" id="updatebutton" value="Update Calendar"></td></tr>
@@ -124,6 +127,7 @@ $dances = array("Argentine Tango",
                 "Country Two Step",
                 "East Coast Swing",
                 "Foxtrot",
+                "Hustle",
                 "Lindy Hop",
                 "Merengue",
                 "Nightclub Two Step",
